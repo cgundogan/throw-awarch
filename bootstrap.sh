@@ -1,3 +1,5 @@
+USER=dev
+
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 
 pacman-key --populate && pacman-key --refresh-keys
@@ -14,29 +16,34 @@ pip3 install retdec-python keystone-engine unicorn capstone ropper
 
 systemctl enable sshd
 
-sudo -u vagrant curl -Ls https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz | sudo -u vagrant tar -xvz
-cd package-query && sudo -u vagrant makepkg -si --noconfirm
+useradd ${USER} -m -s $(which zsh) -G wheel
+echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+cd /home/${USER}
+sudo -u ${USER} mkdir .ssh
+sudo -u ${USER} chmod 700 .ssh
+
+sudo -u ${USER} curl -Ls https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz | sudo -u ${USER} tar -xvz
+cd package-query && sudo -u ${USER} makepkg -si --noconfirm --noprogressbar
 cd ..
-sudo -u vagrant curl -Ls https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz | sudo -u vagrant tar -xvz
-cd yaourt && sudo -u vagrant makepkg -si --noconfirm
+sudo -u ${USER} curl -Ls https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz | sudo -u ${USER} tar -xvz
+cd yaourt && sudo -u ${USER} makepkg -si --noconfirm --noprogressbar
 cd .. && rm -rf package-query yaourt
 
 sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 sed -i 's/^#AllowAgentForwarding/AllowAgentForwarding/' /etc/ssh/sshd_config
 
-cd /home/vagrant/.ssh
-sudo -u vagrant curl -s -L https://github.com/{cgundogan.keys} -o "/home/vagrant/.ssh/#1"
-rm -f /home/vagrant/.ssh/authorized_keys
-sudo -u vagrant cat /home/vagrant/.ssh/*.keys | sudo -u vagrant tee -a /home/vagrant/.ssh/authorized_keys
-sudo -u vagrant chmod 600 authorized_keys
+cd /home/${USER}/.ssh
+sudo -u ${USER} curl -s -L https://github.com/{cgundogan.keys} -o "/home/${USER}/.ssh/#1"
+rm -f /home/${USER}/.ssh/authorized_keys
+sudo -u ${USER} cat /home/${USER}/.ssh/*.keys | sudo -u ${USER} tee -a /home/${USER}/.ssh/authorized_keys
+sudo -u ${USER} chmod 600 authorized_keys
 
-sudo -u vagrant git clone https://github.com/hugsy/gef.git /home/vagrant/gef
-sudo -u vagrant echo "source ~/gef/gef.py" | sudo -u vagrant tee /home/vagrant/.gdbinit
+sudo -u ${USER} git clone https://github.com/hugsy/gef.git /home/${USER}/gef
+sudo -u ${USER} echo "source ~/gef/gef.py" | sudo -u ${USER} tee /home/${USER}/.gdbinit
 
-sudo -u vagrant git clone --recursive https://github.com/cgundogan/TaZSHa /home/vagrant/.ztazsha
-sudo -u vagrant echo 'ZDOTDIR="/home/vagrant/.ztazsha"' | sudo -u vagrant tee -a /home/vagrant/.zshenv
-sudo -u vagrant echo 'source "$ZDOTDIR/.zshenv"' | sudo -u vagrant tee -a /home/vagrant/.zshenv
-
-chsh -s $(which zsh) vagrant
+sudo -u ${USER} git clone --recursive https://github.com/cgundogan/TaZSHa /home/${USER}/.ztazsha
+sudo -u ${USER} echo 'ZDOTDIR="/home/${USER}/.ztazsha"' | sudo -u ${USER} tee -a /home/${USER}/.zshenv
+sudo -u ${USER} echo 'source "$ZDOTDIR/.zshenv"' | sudo -u ${USER} tee -a /home/${USER}/.zshenv
 
 systemctl restart sshd

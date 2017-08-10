@@ -26,7 +26,8 @@ sed -i 's/^#AllowAgentForwarding/AllowAgentForwarding/' /etc/ssh/sshd_config
 
 cd /home/vagrant/.ssh
 sudo -u vagrant curl -s -L https://github.com/{cgundogan.keys} -o "/home/vagrant/.ssh/#1"
-sudo -u vagrant cat /home/vagrant/.ssh/*.keys | sudo -u vagrant tee /home/vagrant/.ssh/authorized_keys
+rm -f /home/vagrant/.ssh/authorized_keys
+sudo -u vagrant cat /home/vagrant/.ssh/*.keys | sudo -u vagrant tee -a /home/vagrant/.ssh/authorized_keys
 sudo -u vagrant chmod 600 authorized_keys
 
 sudo -u vagrant git clone https://github.com/hugsy/gef.git /home/vagrant/gef

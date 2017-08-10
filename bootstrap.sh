@@ -9,7 +9,7 @@ pacman -S pacman --noprogressbar --noconfirm
 pacman-db-upgrade
 pacman -Syyu --noprogressbar --noconfirm
 pacman -S --force --needed --noconfirm \
-     base base-devel openssh git sudo zsh make cmake gvim gdb python-pip tmux unzip rxvt-unicode-terminfo
+     base base-devel openssh git sudo zsh make cmake gvim gdb python-pip tmux unzip rxvt-unicode-terminfo bridge-utils
 yes | pacman -S gcc-multilib valgrind-multilib
 
 pip3 install retdec-python keystone-engine unicorn capstone ropper

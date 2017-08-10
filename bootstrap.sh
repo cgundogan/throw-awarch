@@ -35,8 +35,7 @@ sed -i 's/^#AllowAgentForwarding/AllowAgentForwarding/' /etc/ssh/sshd_config
 
 cd /home/${USER}/.ssh
 sudo -u ${USER} curl -s -L https://github.com/{cgundogan.keys} -o "/home/${USER}/.ssh/#1"
-rm -f /home/${USER}/.ssh/authorized_keys
-sudo -u ${USER} cat /home/${USER}/.ssh/*.keys | sudo -u ${USER} tee -a /home/${USER}/.ssh/authorized_keys
+sudo -u ${USER} cat /home/${USER}/.ssh/*.keys | sudo -u ${USER} tee /home/${USER}/.ssh/authorized_keys
 sudo -u ${USER} chmod 600 authorized_keys
 
 sudo -u ${USER} git clone https://github.com/hugsy/gef.git /home/${USER}/gef

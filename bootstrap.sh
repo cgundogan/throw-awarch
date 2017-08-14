@@ -9,14 +9,14 @@ pacman -S pacman --noprogressbar --noconfirm
 pacman-db-upgrade
 pacman -Syyu --noprogressbar --noconfirm
 pacman -S --force --needed --noconfirm \
-     base base-devel openssh git sudo zsh make cmake gvim gdb python-pip tmux unzip rxvt-unicode-terminfo bridge-utils ccache
+     base base-devel openssh git sudo zsh make cmake gvim gdb python-pip tmux unzip rxvt-unicode-terminfo bridge-utils ccache wireshark-cli
 yes | pacman -S gcc-multilib valgrind-multilib
 
 pip3 install retdec-python keystone-engine unicorn capstone ropper
 
 systemctl enable sshd
 
-useradd ${USER} -m -s $(which zsh) -G wheel
+useradd ${USER} -m -s $(which zsh) -G wheel wireshark
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 cd /home/${USER}

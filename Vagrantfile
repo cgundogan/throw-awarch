@@ -12,6 +12,7 @@ Vagrant.configure(2) do |config|
     vb.name = "Throw-Awarch"
     vb.memory = "2048"
     vb.cpus = `nproc`.chomp
+    vb.customize ["modifyvm", :id, "--ioapic", "on"]
   end
 
   config.vm.provision "shell", path: "bootstrap.sh"

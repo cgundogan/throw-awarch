@@ -9,7 +9,7 @@ pacman -S pacman --noprogressbar --noconfirm
 pacman-db-upgrade
 pacman -Syyu --noprogressbar --noconfirm
 pacman -S --force --needed --noconfirm \
-     base base-devel openssh git sudo zsh make cmake gvim gdb python-pip \
+     base base-devel openssh git sudo zsh make cmake vim gdb python-pip \
      tmux unzip rxvt-unicode-terminfo bridge-utils ccache wireshark-cli rsync
 yes | pacman -S gcc-multilib valgrind-multilib
 

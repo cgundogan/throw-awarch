@@ -17,7 +17,7 @@ pip3 install retdec-python keystone-engine unicorn capstone ropper
 
 systemctl enable sshd
 
-useradd ${USER} -m -s $(which zsh) -G wheel wireshark
+useradd ${USER} -m -s $(which zsh) -G wheel,wireshark
 echo "%wheel ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 cd /home/${USER}
